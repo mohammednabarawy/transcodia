@@ -38,7 +38,11 @@ jobs:
 
       - name: Install FFmpeg (macOS)
         if: runner.os == 'macOS'
-        run: brew install ffmpeg
+        run: |
+          brew install ffmpeg-full
+          engine_dir="$(brew --prefix ffmpeg-full)/bin"
+          echo "$engine_dir" >> "$GITHUB_PATH"
+          echo "FFMPEG_PATH=$engine_dir/ffmpeg" >> "$GITHUB_ENV"
 
       - name: Install FFmpeg (Windows)
         if: runner.os == 'Windows'

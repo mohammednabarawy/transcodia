@@ -4,7 +4,16 @@
 
 Use Python 3.10+ and a dedicated virtual environment. Install `requirements-dev.txt` for tests and packaging. The supported UI framework is PySide6; the media engine package has no Qt imports.
 
-Install FFmpeg independently before running media tests or building. Typical setup commands are `winget install Gyan.FFmpeg` on Windows, `brew install ffmpeg` on macOS, or `sudo apt install ffmpeg` on Debian/Ubuntu. Linux Qt also needs the display/font libraries installed by the CI workflow.
+Install FFmpeg independently before running media tests or building. Typical setup commands are `winget install Gyan.FFmpeg` on Windows, `brew install ffmpeg-full` on macOS, or `sudo apt install ffmpeg` on Debian/Ubuntu. Linux Qt also needs the display/font libraries installed by the CI workflow.
+
+On macOS, the standard Homebrew formula omits optional features used by this app. Use the full formula and expose its executable explicitly:
+
+```bash
+brew install ffmpeg-full
+export FFMPEG_PATH="$(brew --prefix ffmpeg-full)/bin/ffmpeg"
+```
+
+This provides the subtitle, stabilization and Vorbis components exercised by the integration suite. The engine remains independently installed; it is not redistributed in the app archive.
 
 ```bash
 python -m venv .venv

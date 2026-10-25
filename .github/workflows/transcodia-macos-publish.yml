@@ -45,8 +45,11 @@ jobs:
 
       - name: Install FFmpeg
         run: |
-          brew install ffmpeg
-          echo "VERIFY_FFMPEG=$(command -v ffmpeg)" >> "$GITHUB_ENV"
+          brew install ffmpeg-full
+          engine_dir="$(brew --prefix ffmpeg-full)/bin"
+          echo "$engine_dir" >> "$GITHUB_PATH"
+          echo "FFMPEG_PATH=$engine_dir/ffmpeg" >> "$GITHUB_ENV"
+          echo "VERIFY_FFMPEG=$engine_dir/ffmpeg" >> "$GITHUB_ENV"
 
       - name: Build bundle
         run: bash scripts/unix_build.sh "$VERIFY_FFMPEG"
