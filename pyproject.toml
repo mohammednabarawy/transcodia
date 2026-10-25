@@ -1,0 +1,42 @@
+[project]
+name = "transcodia"
+dynamic = ["version"]
+description = "Desktop media converter for video, audio, pictures and documents."
+authors = [{name = "Mohammed Nabarawy"}]
+license = {file = "LICENSE"}
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+  "PySide6==6.11.1",
+  "pypdf>=5.0",
+  "pdfplumber>=0.11",
+  "pypdfium2>=4.0",
+  "reportlab>=4.0",
+  "openpyxl>=3.1",
+  "Pillow>=10.0",
+  "psutil>=5.9",
+  "python-docx>=1.1",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0", "pytest-qt>=4.4", "coverage>=7.5", "pyinstaller>=6.10"]
+
+[project.scripts]
+transcodia = "transcodia_app.main:main"
+
+[project.urls]
+Repository = "https://github.com/mohammednabarawy/transcodia"
+Issues = "https://github.com/mohammednabarawy/transcodia/issues"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = ["transcodia_app", "transcodia_app.handlers", "transcodia_app.views", "transcodia_engine"]
+
+[tool.setuptools.dynamic]
+version = { attr = "transcodia_app.version.APP_VERSION" }
+
+[tool.setuptools.package-data]
+transcodia_app = ["assets/*.png", "assets/*.json", "assets/icons/*.png"]

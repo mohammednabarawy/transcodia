@@ -1,0 +1,33 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Build output
+build/
+dist/
+*.spec.bak
+
+# Local, per-machine configuration and optional external artwork index
+transcodia.local.json
+transcodia_app/icon_resources.json
+
+# Generated reports, renders, and local analysis material
+artifacts/
+
+# Editors / OS
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Secrets
+.env
+.env.*
+*.p12
+*.pfx

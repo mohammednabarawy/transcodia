@@ -1,0 +1,218 @@
+{
+  "tool": "OpenAI image_gen / ChatGPT image generation",
+  "date": "2026-10-26",
+  "assets": [
+    {
+      "path": "icons/add_files.png",
+      "sha256": "8abe3694ec0780e07814e9c15357f4f8f237b806cda609c4ee8c112eb5aac35e",
+      "size": [
+        1254,
+        1254
+      ],
+      "prompt": "Use case: logo-brand. Generate ONE original production UI icon for the Transcodia desktop application. Subject: a document page with a plus sign in the lower right. Icon style: crisp modern flat vector-like pictogram, consistent medium stroke weight with softly rounded caps, restrained cobalt blue (#1767bf) and turquoise (#19a9bc), subtle pale cyan interior fill only where it helps clarity. The icon must be very readable at 24 and 32 pixels, with strong silhouette and few details. Single icon centered in a square composition with about 15 percent transparent padding. Genuinely transparent background. NO background tile, NO lettering, NO words, NO shadows, NO gradients, NO app logos, NO border around the entire canvas, NO watermark. Create new artwork, do not copy any existing application's icon. The result is a standalone transparent PNG asset for a toolbar or tool tile."
+    },
+    {
+      "path": "icons/audio.png",
+      "sha256": "5bac3d7c19420b6d4e435f81aa3c94ecc92f00b745551ace47c67de9fe32f781",
+      "size": [
+        1254,
+        1254
+      ],
+      "prompt": "Use case: logo-brand. Generate ONE original production UI icon for the Transcodia desktop application. Subject: two connected musical notes. Icon style: crisp modern flat vector-like pictogram, consistent medium stroke weight with softly rounded caps, restrained cobalt blue (#1767bf) and turquoise (#19a9bc), subtle pale cyan interior fill only where it helps clarity. The icon must be very readable at 24 and 32 pixels, with strong silhouette and few details. Single icon centered in a square composition with about 15 percent transparent padding. Genuinely transparent background. NO background tile, NO lettering, NO words, NO shadows, NO gradients, NO app logos, NO border around the entire canvas, NO watermark. Create new artwork, do not copy any existing application's icon. The result is a standalone transparent PNG asset for a toolbar or tool tile."
+    },
+    {
+      "path": "icons/clear.png",
+      "sha256": "cc8fd05f2989a3d08b242024177fbbf347690566aedc336d97fa8a4008292389",
+      "size": [
+        1254,
+        1254
+      ],
+      "prompt": "Use case: logo-brand. Generate ONE original production UI icon for the Transcodia desktop application. Subject: a small waste bin for clearing a queue. Icon style: crisp modern flat vector-like pictogram, consistent medium stroke weight with softly rounded caps, restrained cobalt blue (#1767bf) and turquoise (#19a9bc), subtle pale cyan interior fill only where it helps clarity. The icon must be very readable at 24 and 32 pixels, with strong silhouette and few details. Single icon centered in a square composition with about 15 percent transparent padding. Genuinely transparent background. NO background tile, NO lettering, NO words, NO shadows, NO gradients, NO app logos, NO border around the entire canvas, NO watermark. Create new artwork, do not copy any existing application's icon. The result is a standalone transparent PNG asset for a toolbar or tool tile."
+    },
+    {
+      "path": "icons/clip.png",
+      "sha256": "4a6943f513e6fca57dfae272ac34e570f2df0fe421cb064c6a06e2b1fe07f6c7",
+      "size": [
+        1254,
+        1254
+      ],
+      "prompt": "Use case: logo-brand. Generate ONE original production UI icon for the Transcodia desktop application. Subject: a compact pair of scissors. Icon style: crisp modern flat vector-like pictogram, consistent medium stroke weight with softly rounded caps, restrained cobalt blue (#1767bf) and turquoise (#19a9bc), subtle pale cyan interior fill only where it helps clarity. The icon must be very readable at 24 and 32 pixels, with strong silhouette and few details. Single icon centered in a square composition with about 15 percent transparent padding. Genuinely transparent background. NO background tile, NO lettering, NO words, NO shadows, NO gradients, NO app logos, NO border around the entire canvas, NO watermark. Create new artwork, do not copy any existing application's icon. The result is a standalone transparent PNG asset for a toolbar or tool tile."
+    },
+    {
+      "path": "icons/confirm.png",
+      "sha256": "b800ab344a3f0ea512d60528c9701c39307eb58d4dbcb6a1861213cad5b59a30",
+      "size": [
+        1254,
+        1254
+      ],
+      "prompt": "Use case: logo-brand. Generate ONE original production UI icon for the Transcodia desktop application. Subject: a confident check mark inside a thin circle. Icon style: crisp modern flat vector-like pictogram, consistent medium stroke weight with softly rounded caps, restrained cobalt blue (#1767bf) and turquoise (#19a9bc), subtle pale cyan interior fill only where it helps clarity. The icon must be very readable at 24 and 32 pixels, with strong silhouette and few details. Single icon centered in a square composition with about 15 percent transparent padding. Genuinely transparent background. NO background tile, NO lettering, NO words, NO shadows, NO gradients, NO app logos, NO border around the entire canvas, NO watermark. Create new artwork, do not copy any existing application's icon. The result is a standalone transparent PNG asset for a toolbar or tool tile."
+    },
+    {
+      "path": "icons/delogo.png",
+      "sha256": "3c8ac3c56416141a64205bd8b6ad0d8d2933d112c28288f343ffe5f1b2cf2b6d",
+      "size": [
+        1312,
+        1199
+      ],
+      "prompt": "Use case: logo-brand. Generate ONE original production UI icon for the Transcodia desktop application. Subject: a diagonal eraser with a tiny sparkle. Icon style: crisp modern flat vector-like pictogram, consistent medium stroke weight with softly rounded caps, restrained cobalt blue (#1767bf) and turquoise (#19a9bc), subtle pale cyan interior fill only where it helps clarity. The icon must be very readable at 24 and 32 pixels, with strong silhouette and few details. Single icon centered in a square composition with about 15 percent transparent padding. Genuinely transparent background. NO background tile, NO lettering, NO words, NO shadows, NO gradients, NO app logos, NO border around the entire canvas, NO watermark. Create new artwork, do not copy any existing application's icon. The result is a standalone transparent PNG asset for a toolbar or tool tile."
+    },
+    {
+      "path": "icons/disc.png",
+      "sha256": "4f532ea8ef200a6a262156ed27a8408b3283024d23757d8406715eb113d6d119",
+      "size": [
+        1254,
+        1254
+      ],
+      "prompt": "Use case: logo-brand. Generate ONE original production UI icon for the Transcodia desktop application. Subject: an optical disc with a small center hole and two subtle highlights. Icon style: crisp modern flat vector-like pictogram, consistent medium stroke weight with softly rounded caps, restrained cobalt blue (#1767bf) and turquoise (#19a9bc), subtle pale cyan interior fill only where it helps clarity. The icon must be very readable at 24 and 32 pixels, with strong silhouette and few details. Single icon centered in a square composition with about 15 percent transparent padding. Genuinely transparent background. NO background tile, NO lettering, NO words, NO shadows, NO gradients, NO app logos, NO border around the entire canvas, NO watermark. Create new artwork, do not copy any existing application's icon. The result is a standalone transparent PNG asset for a toolbar or tool tile."
+    },
+    {
+      "path": "icons/document.png",
+      "sha256": "a5d40a6b5b638df25b80a3f0f5733cba1ae8eeda268051def42247c77aee6615",
+      "size": [
+        1254,
+        1254
+      ],
+      "prompt": "Use case: logo-brand. Generate ONE original production UI icon for the Transcodia desktop application. Subject: a document page with three short text lines and a folded corner. Icon style: crisp modern flat vector-like pictogram, consistent medium stroke weight with softly rounded caps, restrained cobalt blue (#1767bf) and turquoise (#19a9bc), subtle pale cyan interior fill only where it helps clarity. The icon must be very readable at 24 and 32 pixels, with strong silhouette and few details. Single icon centered in a square composition with about 15 percent transparent padding. Genuinely transparent background. NO background tile, NO lettering, NO words, NO shadows, NO gradients, NO app logos, NO border around the entire canvas, NO watermark. Create new artwork, do not copy any existing application's icon. The result is a standalone transparent PNG asset for a toolbar or tool tile."
+    },
+    {
+      "path": "icons/download.png",
+      "sha256": "faf2a17558f984851ac1b1422c666d06e1502e1a115524606fe181acac474d5f",
+      "size": [
+        1254,
+        1254
+      ],
+      "prompt": "Use case: logo-brand. Generate ONE original production UI icon for the Transcodia desktop application. Subject: a downward arrow entering a shallow tray. Icon style: crisp modern flat vector-like pictogram, consistent medium stroke weight with softly rounded caps, restrained cobalt blue (#1767bf) and turquoise (#19a9bc), subtle pale cyan interior fill only where it helps clarity. The icon must be very readable at 24 and 32 pixels, with strong silhouette and few details. Single icon centered in a square composition with about 15 percent transparent padding. Genuinely transparent background. NO background tile, NO lettering, NO words, NO shadows, NO gradients, NO app logos, NO border around the entire canvas, NO watermark. Create new artwork, do not copy any existing application's icon. The result is a standalone transparent PNG asset for a toolbar or tool tile."
+    },
+    {
+      "path": "icons/folder.png",
+      "sha256": "3fd3eef2379a5ccbb22e21d214db2a94fdaae7ca75039e6c23b70b20c2d54cd2",
+      "size": [
+        1254,
+        1254
+      ],
+      "prompt": "Use case: logo-brand. Generate ONE original production UI icon for the Transcodia desktop application. Subject: an open folder. Icon style: crisp modern flat vector-like pictogram, consistent medium stroke weight with softly rounded caps, restrained cobalt blue (#1767bf) and turquoise (#19a9bc), subtle pale cyan interior fill only where it helps clarity. The icon must be very readable at 24 and 32 pixels, with strong silhouette and few details. Single icon centered in a square composition with about 15 percent transparent padding. Genuinely transparent background. NO background tile, NO lettering, NO words, NO shadows, NO gradients, NO app logos, NO border around the entire canvas, NO watermark. Create new artwork, do not copy any existing application's icon. The result is a standalone transparent PNG asset for a toolbar or tool tile."
+    },
+    {
+      "path": "icons/frames.png",
+      "sha256": "acc804bb1b2b469a502297928e93e479363bf2b855c05be71eef25d2b6466979",
+      "size": [
+        1254,
+        1254
+      ],
+      "prompt": "Use case: logo-brand. Generate ONE original production UI icon for the Transcodia desktop application. Subject: three staggered picture frames. Icon style: crisp modern flat vector-like pictogram, consistent medium stroke weight with softly rounded caps, restrained cobalt blue (#1767bf) and turquoise (#19a9bc), subtle pale cyan interior fill only where it helps clarity. The icon must be very readable at 24 and 32 pixels, with strong silhouette and few details. Single icon centered in a square composition with about 15 percent transparent padding. Genuinely transparent background. NO background tile, NO lettering, NO words, NO shadows, NO gradients, NO app logos, NO border around the entire canvas, NO watermark. Create new artwork, do not copy any existing application's icon. The result is a standalone transparent PNG asset for a toolbar or tool tile."
+    },
+    {
+      "path": "icons/home.png",
+      "sha256": "a7f7a698a920fde2d78c5a8632e9e60b8dd4e23010d56eead8440d6b9785d9ac",
+      "size": [
+        1254,
+        1254
+      ],
+      "prompt": "Use case: logo-brand. Generate ONE original production UI icon for the Transcodia desktop application. Subject: a small house outline with a doorway. Icon style: crisp modern flat vector-like pictogram, consistent medium stroke weight with softly rounded caps, restrained cobalt blue (#1767bf) and turquoise (#19a9bc), subtle pale cyan interior fill only where it helps clarity. The icon must be very readable at 24 and 32 pixels, with strong silhouette and few details. Single icon centered in a square composition with about 15 percent transparent padding. Genuinely transparent background. NO background tile, NO lettering, NO words, NO shadows, NO gradients, NO app logos, NO border around the entire canvas, NO watermark. Create new artwork, do not copy any existing application's icon. The result is a standalone transparent PNG asset for a toolbar or tool tile."
+    },
+    {
+      "path": "icons/join.png",
+      "sha256": "caf5eafe87b1efccfdbdd1b3d3c25c24e520768d45c0716cb06bc0d198148358",
+      "size": [
+        1254,
+        1254
+      ],
+      "prompt": "Use case: logo-brand. Generate ONE original production UI icon for the Transcodia desktop application. Subject: two separate small rounded rectangles flowing through two arrows into one rectangle. Icon style: crisp modern flat vector-like pictogram, consistent medium stroke weight with softly rounded caps, restrained cobalt blue (#1767bf) and turquoise (#19a9bc), subtle pale cyan interior fill only where it helps clarity. The icon must be very readable at 24 and 32 pixels, with strong silhouette and few details. Single icon centered in a square composition with about 15 percent transparent padding. Genuinely transparent background. NO background tile, NO lettering, NO words, NO shadows, NO gradients, NO app logos, NO border around the entire canvas, NO watermark. Create new artwork, do not copy any existing application's icon. The result is a standalone transparent PNG asset for a toolbar or tool tile."
+    },
+    {
+      "path": "icons/options.png",
+      "sha256": "af33bc90dc68de8dbccb5b276a2c20147a4b98fc1993cfb267ed656a00c9dc68",
+      "size": [
+        1254,
+        1254
+      ],
+      "prompt": "Use case: logo-brand. Generate ONE original production UI icon for the Transcodia desktop application. Subject: a clear eight-tooth settings gear with a small central hole. Icon style: crisp modern flat vector-like pictogram, consistent medium stroke weight with softly rounded caps, restrained cobalt blue (#1767bf) and turquoise (#19a9bc), subtle pale cyan interior fill only where it helps clarity. The icon must be very readable at 24 and 32 pixels, with strong silhouette and few details. Single icon centered in a square composition with about 15 percent transparent padding. Genuinely transparent background. NO background tile, NO lettering, NO words, NO shadows, NO gradients, NO app logos, NO border around the entire canvas, NO watermark. Create new artwork, do not copy any existing application's icon. The result is a standalone transparent PNG asset for a toolbar or tool tile."
+    },
+    {
+      "path": "icons/pause.png",
+      "sha256": "0613b9c29cc27a0487329ea9e369fd478f486aea987fb63dc32c14700fa38bdf",
+      "size": [
+        1254,
+        1254
+      ],
+      "prompt": "Use case: logo-brand. Generate ONE original production UI icon for the Transcodia desktop application. Subject: two vertical pause bars. Icon style: crisp modern flat vector-like pictogram, consistent medium stroke weight with softly rounded caps, restrained cobalt blue (#1767bf) and turquoise (#19a9bc), subtle pale cyan interior fill only where it helps clarity. The icon must be very readable at 24 and 32 pixels, with strong silhouette and few details. Single icon centered in a square composition with about 15 percent transparent padding. Genuinely transparent background. NO background tile, NO lettering, NO words, NO shadows, NO gradients, NO app logos, NO border around the entire canvas, NO watermark. Create new artwork, do not copy any existing application's icon. The result is a standalone transparent PNG asset for a toolbar or tool tile."
+    },
+    {
+      "path": "icons/picture.png",
+      "sha256": "510dbdbd4fb14c3002ce13d65e8fae98b264b678dcc4d1d832cf952aec6c1908",
+      "size": [
+        1402,
+        1122
+      ],
+      "prompt": "Use case: logo-brand. Generate ONE original production UI icon for the Transcodia desktop application. Subject: a landscape picture frame with a mountain and a small sun. Icon style: crisp modern flat vector-like pictogram, consistent medium stroke weight with softly rounded caps, restrained cobalt blue (#1767bf) and turquoise (#19a9bc), subtle pale cyan interior fill only where it helps clarity. The icon must be very readable at 24 and 32 pixels, with strong silhouette and few details. Single icon centered in a square composition with about 15 percent transparent padding. Genuinely transparent background. NO background tile, NO lettering, NO words, NO shadows, NO gradients, NO app logos, NO border around the entire canvas, NO watermark. Create new artwork, do not copy any existing application's icon. The result is a standalone transparent PNG asset for a toolbar or tool tile."
+    },
+    {
+      "path": "icons/recorder.png",
+      "sha256": "2ada540b66bac832d3d5863116964c6fd0632c3098c512396aa613f34a990e34",
+      "size": [
+        1254,
+        1254
+      ],
+      "prompt": "Use case: logo-brand. Generate ONE original production UI icon for the Transcodia desktop application. Subject: a computer monitor with a small coral recording dot. Icon style: crisp modern flat vector-like pictogram, consistent medium stroke weight with softly rounded caps, restrained cobalt blue (#1767bf) and turquoise (#19a9bc), subtle pale cyan interior fill only where it helps clarity. The icon must be very readable at 24 and 32 pixels, with strong silhouette and few details. Single icon centered in a square composition with about 15 percent transparent padding. Genuinely transparent background. NO background tile, NO lettering, NO words, NO shadows, NO gradients, NO app logos, NO border around the entire canvas, NO watermark. Create new artwork, do not copy any existing application's icon. The result is a standalone transparent PNG asset for a toolbar or tool tile."
+    },
+    {
+      "path": "icons/remove.png",
+      "sha256": "cb4ecdf86d7163ceeda02a21658b634c5db3669f3beca97ca785fa4e4bcfdabe",
+      "size": [
+        1254,
+        1254
+      ],
+      "prompt": "Use case: logo-brand. Generate ONE original production UI icon for the Transcodia desktop application. Subject: a simple diagonal X for removing one item. Icon style: crisp modern flat vector-like pictogram, consistent medium stroke weight with softly rounded caps, restrained cobalt blue (#1767bf) and turquoise (#19a9bc), subtle pale cyan interior fill only where it helps clarity. The icon must be very readable at 24 and 32 pixels, with strong silhouette and few details. Single icon centered in a square composition with about 15 percent transparent padding. Genuinely transparent background. NO background tile, NO lettering, NO words, NO shadows, NO gradients, NO app logos, NO border around the entire canvas, NO watermark. Create new artwork, do not copy any existing application's icon. The result is a standalone transparent PNG asset for a toolbar or tool tile."
+    },
+    {
+      "path": "icons/split.png",
+      "sha256": "36273910643a324bc88dd92a2f9a35d48e142dca1337c6f5d7f5c1a421d2cd9b",
+      "size": [
+        1254,
+        1254
+      ],
+      "prompt": "Use case: logo-brand. Generate ONE original production UI icon for the Transcodia desktop application. Subject: one small rectangle branching through two arrows into two rectangles. Icon style: crisp modern flat vector-like pictogram, consistent medium stroke weight with softly rounded caps, restrained cobalt blue (#1767bf) and turquoise (#19a9bc), subtle pale cyan interior fill only where it helps clarity. The icon must be very readable at 24 and 32 pixels, with strong silhouette and few details. Single icon centered in a square composition with about 15 percent transparent padding. Genuinely transparent background. NO background tile, NO lettering, NO words, NO shadows, NO gradients, NO app logos, NO border around the entire canvas, NO watermark. Create new artwork, do not copy any existing application's icon. The result is a standalone transparent PNG asset for a toolbar or tool tile."
+    },
+    {
+      "path": "icons/start.png",
+      "sha256": "92c773994adfc20cdd0ad1ed235808f0e019e27481badf7521dfbfd74d973689",
+      "size": [
+        1254,
+        1254
+      ],
+      "prompt": "Use case: logo-brand. Generate ONE original production UI icon for the Transcodia desktop application. Subject: a right-pointing play triangle. Icon style: crisp modern flat vector-like pictogram, consistent medium stroke weight with softly rounded caps, restrained cobalt blue (#1767bf) and turquoise (#19a9bc), subtle pale cyan interior fill only where it helps clarity. The icon must be very readable at 24 and 32 pixels, with strong silhouette and few details. Single icon centered in a square composition with about 15 percent transparent padding. Genuinely transparent background. NO background tile, NO lettering, NO words, NO shadows, NO gradients, NO app logos, NO border around the entire canvas, NO watermark. Create new artwork, do not copy any existing application's icon. The result is a standalone transparent PNG asset for a toolbar or tool tile."
+    },
+    {
+      "path": "icons/stop.png",
+      "sha256": "a27674a8c03d5e23a3505dd18717fc760da9240bc88977b2ec426c15e7a67e27",
+      "size": [
+        1254,
+        1254
+      ],
+      "prompt": "Use case: logo-brand. Generate ONE original production UI icon for the Transcodia desktop application. Subject: a solid rounded stop square. Icon style: crisp modern flat vector-like pictogram, consistent medium stroke weight with softly rounded caps, restrained cobalt blue (#1767bf) and turquoise (#19a9bc), subtle pale cyan interior fill only where it helps clarity. The icon must be very readable at 24 and 32 pixels, with strong silhouette and few details. Single icon centered in a square composition with about 15 percent transparent padding. Genuinely transparent background. NO background tile, NO lettering, NO words, NO shadows, NO gradients, NO app logos, NO border around the entire canvas, NO watermark. Create new artwork, do not copy any existing application's icon. The result is a standalone transparent PNG asset for a toolbar or tool tile."
+    },
+    {
+      "path": "icons/utilities.png",
+      "sha256": "dd5022c7cbc4a8fb28f86823fe82674e3326f776754714bdfca16d28a316e4b9",
+      "size": [
+        1254,
+        1254
+      ],
+      "prompt": "Use case: logo-brand. Generate ONE original production UI icon for the Transcodia desktop application. Subject: three small sliders arranged vertically. Icon style: crisp modern flat vector-like pictogram, consistent medium stroke weight with softly rounded caps, restrained cobalt blue (#1767bf) and turquoise (#19a9bc), subtle pale cyan interior fill only where it helps clarity. The icon must be very readable at 24 and 32 pixels, with strong silhouette and few details. Single icon centered in a square composition with about 15 percent transparent padding. Genuinely transparent background. NO background tile, NO lettering, NO words, NO shadows, NO gradients, NO app logos, NO border around the entire canvas, NO watermark. Create new artwork, do not copy any existing application's icon. The result is a standalone transparent PNG asset for a toolbar or tool tile."
+    },
+    {
+      "path": "icons/video.png",
+      "sha256": "bddd5e1f08d89046ab5045d0f0e73d4ebed552637a107f80b1b9c8f8d3810500",
+      "size": [
+        1254,
+        1254
+      ],
+      "prompt": "Use case: logo-brand. Generate ONE original production UI icon for the Transcodia desktop application. Subject: a film frame containing a small play triangle. Icon style: crisp modern flat vector-like pictogram, consistent medium stroke weight with softly rounded caps, restrained cobalt blue (#1767bf) and turquoise (#19a9bc), subtle pale cyan interior fill only where it helps clarity. The icon must be very readable at 24 and 32 pixels, with strong silhouette and few details. Single icon centered in a square composition with about 15 percent transparent padding. Genuinely transparent background. NO background tile, NO lettering, NO words, NO shadows, NO gradients, NO app logos, NO border around the entire canvas, NO watermark. Create new artwork, do not copy any existing application's icon. The result is a standalone transparent PNG asset for a toolbar or tool tile."
+    },
+    {
+      "path": "app-mark.png",
+      "sha256": "b85eced0c3a6794f388dd92b2a6818a9702c0f8d54f608898a070e14f14c0d00",
+      "prompt": "An original abstract T emblem made from rounded interlocking cobalt and turquoise ribbons; transparent background; strong silhouette for a desktop application icon. No text or other logos."
+    }
+  ]
+}

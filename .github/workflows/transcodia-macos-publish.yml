@@ -1,0 +1,89 @@
+name: Transcodia macOS publish
+
+on:
+  push:
+    branches: [release, transcodia-release, transcodia-macos]
+  workflow_dispatch:
+
+concurrency:
+  group: transcodia-macos-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    if: vars.ENABLE_DESKTOP_RELEASES == 'true'
+    name: Build macOS (${{ matrix.label }})
+    runs-on: ${{ matrix.runner }}
+    env:
+      APPLE_CERTIFICATE: ${{ secrets.APPLE_CERTIFICATE }}
+      APPLE_CERTIFICATE_PASSWORD: ${{ secrets.APPLE_CERTIFICATE_PASSWORD }}
+      KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
+      APPLE_SIGNING_IDENTITY: ${{ secrets.APPLE_SIGNING_IDENTITY }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - runner: macos-15
+            label: arm64
+          - runner: macos-15-intel
+            label: x86_64
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: requirements-dev.txt
+
+      - name: Read version
+        id: version
+        run: echo "version=$(python3 scripts/bump_version.py --print)" >> "$GITHUB_OUTPUT"
+
+      - name: Install FFmpeg
+        run: |
+          brew install ffmpeg
+          echo "VERIFY_FFMPEG=$(command -v ffmpeg)" >> "$GITHUB_ENV"
+
+      - name: Build bundle
+        run: bash scripts/unix_build.sh "$VERIFY_FFMPEG"
+
+      - name: Import signing certificate
+        if: env.APPLE_CERTIFICATE != ''
+        run: |
+          echo "$APPLE_CERTIFICATE" | base64 --decode > certificate.p12
+          security create-keychain -p "$KEYCHAIN_PASSWORD" build.keychain
+          security default-keychain -s build.keychain
+          security unlock-keychain -p "$KEYCHAIN_PASSWORD" build.keychain
+          security import certificate.p12 -k build.keychain -P "$APPLE_CERTIFICATE_PASSWORD" -T /usr/bin/codesign
+          security set-key-partition-list -S apple-tool:,apple: -s -k "$KEYCHAIN_PASSWORD" build.keychain
+          rm certificate.p12
+
+      - name: Sign app
+        if: env.APPLE_SIGNING_IDENTITY != ''
+        run: |
+          codesign --force --deep --options runtime --sign "$APPLE_SIGNING_IDENTITY" dist/Transcodia.app
+          ditto -c -k --keepParent dist/Transcodia.app "dist/Transcodia-${{ steps.version.outputs.version }}-macos-$(uname -m).zip"
+
+      - name: Smoke test packaged app
+        if: env.APPLE_SIGNING_IDENTITY != ''
+        env:
+          QT_QPA_PLATFORM: offscreen
+        run: python3 scripts/verify_bundle.py dist/Transcodia.app/Contents/MacOS/Transcodia --ffmpeg "$VERIFY_FFMPEG"
+
+      - name: Upload workflow artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: transcodia-macos-${{ matrix.label }}
+          path: dist/Transcodia-*-macos-*.zip
+
+      - name: Publish to draft release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: transcodia-v${{ steps.version.outputs.version }}
+          name: Transcodia ${{ steps.version.outputs.version }}
+          draft: true
+          files: dist/Transcodia-*-macos-*.zip
