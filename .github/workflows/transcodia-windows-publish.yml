@@ -18,9 +18,9 @@ jobs:
     name: Build Windows x64
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v7
         with:
           python-version: "3.12"
           cache: pip
@@ -47,13 +47,13 @@ jobs:
         run: ./scripts/windows_build.ps1 -VerifyFfmpegPath $env:VERIFY_FFMPEG
 
       - name: Upload workflow artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: transcodia-windows-x64
           path: dist/Transcodia-${{ steps.version.outputs.version }}-windows-x64.zip
 
       - name: Publish to draft release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         with:
           tag_name: transcodia-v${{ steps.version.outputs.version }}
           name: Transcodia ${{ steps.version.outputs.version }}
