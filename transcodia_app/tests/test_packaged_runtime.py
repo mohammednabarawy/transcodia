@@ -135,4 +135,7 @@ def test_real_source_clip_is_converted_and_decoded(ffmpeg_bin, media_files, tmp_
     assert result["checks"][-1] == "source-video-clip"
     assert result["source_clip"]["width"] == 160
     assert result["source_clip"]["bytes"] > 0
+    assert result["source_clip"]["codec"] == "hevc"
+    assert result["requested_encoder"] == "nvenc"
+    assert isinstance(result["software_fallback"], bool)
     assert Path(media_files["video"]).read_bytes() == original

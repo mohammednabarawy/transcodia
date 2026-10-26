@@ -2,7 +2,7 @@
 
 ## Latest local result
 
-The latest coverage run passed **287 tests in 29.16 seconds**, with **0 failures, 0 errors and 0 skips**. Source line coverage was **89.78%** and branch coverage **73.00%**. The PDF replacement and generated artwork were tested with the removed PDF engine absent from the isolated environment.
+The latest coverage run passed **298 tests in 31.21 seconds**, with **0 failures, 0 errors and 0 skips**. Source line coverage was **89.50%** and branch coverage **72.92%**. The PDF replacement and generated artwork were tested with the removed PDF engine absent from the isolated environment.
 
 ## Run
 
@@ -25,6 +25,7 @@ Reports are written to `artifacts/tests/`: `summary.json`, `pytest.log`, `junit.
 | Inputs and settings | Files/folders/drops, duplicate filtering, validation, independent settings and queue persistence |
 | Media | Real format conversions, decoded frames, trim/resize/rotate/crop, subtitles, watermarks and audio transforms |
 | Advanced encoding | Actual two-pass and stabilization analysis plus final decoding |
+| Hardware recovery | Simulated unavailable NVENC/QSV/AMF/Media Foundation for H.264 and HEVC, one software retry with decoded output, retained settings, cancellation, complete failure diagnostics and a visible completion notice |
 | Join and mux | Duration/content checks, replacement-audio frequency, subtitle extraction and silent-video handling |
 | Images | Reopened formats, transform pixels, dimensions, alpha handling and EXIF orientation |
 | Documents | PDF text/table extraction, literal spreadsheet text, merge order, readable DOCX, DOCX text/table PDF rendering and atomic output publication |
@@ -34,7 +35,7 @@ Reports are written to `artifacts/tests/`: `summary.json`, `pytest.log`, `junit.
 
 The tests are under `transcodia_app/tests` and `transcodia_engine/tests`. Most UI tests manipulate real widgets rather than substituting the application logic. Hardware probing matrices are controlled tests; they are not certification of a physical GPU or driver.
 
-An optional packaged check, `scripts/verify_bundle.py --media-source`, runs a five-second source clip through the main window's real queue and conversion thread with automatic encoder selection, decodes the result and checks the source was unchanged. This is additional local evidence, not a full-length media conversion. Automatic HEVC selection is also covered against hardware that supports only H.264.
+An optional packaged check, `scripts/verify_bundle.py --media-source`, runs a five-second source clip through the main window's real queue and conversion thread using a requested NVENC HEVC profile. On a machine without a usable NVIDIA encoder, this exercises software recovery; the report records whether fallback occurred. The result is decoded and the source is checked for changes. This is additional local evidence, not a full-length media conversion. Automatic HEVC selection is also covered against hardware that supports only H.264.
 
 ## Limits
 

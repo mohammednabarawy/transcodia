@@ -106,27 +106,23 @@ def verify_runtime(report_path: str, media_source=None) -> int:
                 raise RuntimeError("Converted media could not be decoded.")
             report["checks"].append("media-encode-decode")
             if media_source:
-                from transcodia_engine.models import MediaAdditionalConfig
+                from transcodia_engine.models import MediaAdditionalConfig, VideoCodec, HardwareAccel
                 from transcodia_app.handlers.probe_handler import MediaProbe
                 source = Path(media_source).resolve(strict=True)
                 before = source.stat()
                 converted = root / "source-check.mp4"
                 task = ConvertTaskItem(
                     src_file=str(source), dst_file=str(converted),
-                    video_config=VideoConfig(), audio_config=AudioConfig(),
+                    video_config=VideoConfig(codec=VideoCodec.HEVC, hw_accel=HardwareAccel.NVENC,
+                                             crf=20, preset="slow"),
+                    audio_config=AudioConfig(bitrate_kbps=192, sample_rate=48000),
                     additional_config=MediaAdditionalConfig(start_time=0, end_time=5))
                 from PySide6 import QtCore, QtWidgets
                 from transcodia_app.views.main_window import MainWindow
-                from transcodia_engine.hardware_prober import HardwareProber
                 app = QtWidgets.QApplication.instance() or QtWidgets.QApplication([])
                 window = MainWindow(probe_hardware=False)
                 window.play_sound = False
                 window.chk_notify.setChecked(False)
-                caps = HardwareProber(str(ffmpeg)).probe()
-                window._on_hardware_probed({"nvenc": caps.nvenc_h264, "qsv": caps.qsv_h264,
-                                            "amf": caps.amf_h264, "mf": caps.mf_h264,
-                                            "nvenc_hevc": caps.nvenc_hevc, "qsv_hevc": caps.qsv_hevc,
-                                            "amf_hevc": caps.amf_hevc, "mf_hevc": caps.mf_hevc})
                 window._enqueue_media_task("video", "mp4", task)
                 window._start_conversion()
                 loop = QtCore.QEventLoop()
@@ -146,7 +142,11 @@ def verify_runtime(report_path: str, media_source=None) -> int:
                     actual = next(iter(window.all_tasks.values()))
                     if actual["status"] != "completed":
                         raise RuntimeError(actual.get("error_message") or "GUI source clip conversion failed.")
-                    report["gui_encoder"] = task.video_config.hw_accel.value
+                    result = window.runner_thread._async_worker.get_result(actual["id"])
+                    report["requested_encoder"] = task.video_config.hw_accel.value
+                    report["software_fallback"] = bool(result.warning_message)
+                    report["gui_encoder"] = "none" if result.warning_message else task.video_config.hw_accel.value
+                    report["conversion_notice"] = result.warning_message
                     report["checks"].append("gui-conversion-thread")
                 finally:
                     window.close()
@@ -157,7 +157,8 @@ def verify_runtime(report_path: str, media_source=None) -> int:
                 if not 0 < info.duration_seconds <= 5.2 or (before.st_size, before.st_mtime_ns) != (after.st_size, after.st_mtime_ns):
                     raise RuntimeError("Clip verification failed or source was modified.")
                 report["source_clip"] = {"duration": info.duration_seconds, "width": info.width,
-                                         "height": info.height, "bytes": converted.stat().st_size}
+                                         "height": info.height, "codec": info.video_codec,
+                                         "audio_codec": info.audio_codec, "bytes": converted.stat().st_size}
                 report["checks"].append("source-video-clip")
         report["ok"] = True
     except Exception as error:

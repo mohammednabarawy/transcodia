@@ -65,6 +65,8 @@ python main.py
 
 The **Windows portable package includes FFmpeg, FFprobe and their required DLLs**. Extract the complete ZIP and run `Transcodia.exe`; no separate media-engine installation is needed. Running from source still requires FFmpeg on the development machine. Image and document tools use the declared Python libraries. See the [developer guide](_docs/dev_setup.md) for setup.
 
+If a requested H.264 or HEVC hardware encoder fails, Transcodia retries once with the corresponding software encoder and shows a completion notice. The output codec, dimensions, audio, trims and filters are retained; hardware preset and quality controls are mapped to software settings. Software encoding can take longer. If both attempts fail, the task's error details include both failures.
+
 ### Build a desktop package
 
 Install the development dependencies first:

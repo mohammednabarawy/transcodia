@@ -128,3 +128,18 @@ def test_auto_hardware_requires_support_for_selected_codec(app_window, hardware)
     window._hardware_caps_dict[hardware + "_hevc"] = True
     window._enqueue_media_task("video", "mp4", task)
     assert task.video_config.hw_accel.value == hardware
+
+
+def test_software_fallback_notice_is_visible_in_completed_gui_task(app_window):
+    window = app_window
+    task = ConvertTaskItem("source.mp4", str(Path(window.output_dir) / "out.mp4"))
+    window._enqueue_media_task("video", "mp4", task)
+    tid = next(iter(window.all_tasks))
+    runner = ConversionRunnerThread([])
+    runner.task_completed.connect(window._on_task_completed)
+    warning = "HEVC hardware encoding (nvenc) failed; completed using software encoding."
+    runner._on_worker_complete(tid, TaskResult(tid, task, TaskStatus.COMPLETED,
+                                             output_size_bytes=100, warning_message=warning))
+    assert window.all_tasks[tid]["status"] == "completed"
+    cell = window.task_table.cellWidget(0, window.task_table.COL_PROGRESS)
+    assert cell.findChild(QtWidgets.QLabel, "taskDetails").text() == warning

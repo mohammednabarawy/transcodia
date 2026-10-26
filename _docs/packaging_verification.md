@@ -14,7 +14,7 @@ The distribution is a directory-based desktop application with dynamically loade
 
 The source audit also rejects executable libraries in the Git tree, machine-specific configuration, personal absolute paths and common secret-token patterns. Asset files have a recorded creation source and hashes. These checks provide evidence; they are not a copyright or trademark clearance opinion.
 
-The runtime check additionally verifies all 24 app artwork files, a rendered PDF preview and DOCX-to-PDF text. An optional source-video check uses the main window's queue, conversion thread and automatic encoder selection to convert and decode a five-second clip, then verifies the original size and modification time remain unchanged. The report includes the selected encoder. See `TESTING.md` for measured source coverage.
+The runtime check additionally verifies all 24 app artwork files, a rendered PDF preview and DOCX-to-PDF text. An optional source-video check uses the main window's queue and conversion thread with a requested NVENC HEVC profile to convert and decode a five-second clip, then verifies the original size and modification time remain unchanged. On hosts without a usable NVIDIA encoder, this checks software recovery. The report includes the requested encoder, fallback state, completion notice and decoded codec. See `TESTING.md` for measured source coverage.
 
 ## Local evidence
 

@@ -11,11 +11,11 @@ import glob
 import re
 import tempfile
 from collections import deque
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace
 from enum import Enum
 from typing import Callable, Dict, List, Optional, Any
 
-from .models import ConvertTaskItem
+from .models import ConvertTaskItem, HardwareAccel, VideoCodec
 from .engine import FFMpegEngine
 
 
@@ -47,6 +47,7 @@ class TaskResult:
     output_file: Optional[str] = None
     output_size_bytes: Optional[int] = None
     error_message: Optional[str] = None
+    warning_message: Optional[str] = None
 
 
 class BatchConversionWorker:
@@ -141,6 +142,38 @@ class BatchConversionWorker:
             pass
 
     async def _execute_single_task(self, task_id: str, semaphore: asyncio.Semaphore) -> TaskResult:
+        result = await self._execute_single_attempt(task_id, semaphore)
+        task = self._tasks[task_id]
+        video = task.video_config
+        if (result.status == TaskStatus.FAILED and task_id not in self._cancelled_ids
+                and video and video.hw_accel != HardwareAccel.NONE
+                and video.codec in (VideoCodec.H264, VideoCodec.HEVC)):
+            hardware_error = result.error_message
+            first_elapsed = result.elapsed_seconds
+            # GPU presets and CQ options must be translated for the software encoder.
+            preset = video.preset if video.preset in (
+                "ultrafast", "superfast", "veryfast", "faster", "fast", "medium", "slow", "slower", "veryslow"
+            ) else "fast"
+            software = replace(task, video_config=replace(video, hw_accel=HardwareAccel.NONE,
+                preset=preset, crf=video.cq if video.cq is not None else video.crf))
+            result = await self._execute_single_attempt(task_id, semaphore, software)
+            result.task = task
+            result.elapsed_seconds += first_elapsed
+            if result.status == TaskStatus.COMPLETED:
+                result.warning_message = (f"{video.codec.value.upper()} hardware encoding ({video.hw_accel.value}) "
+                                          "failed; completed using software encoding.")
+            elif result.status == TaskStatus.FAILED:
+                result.error_message = (f"Hardware encoding failed:\n{hardware_error}\n\n"
+                                        f"Software encoding also failed:\n{result.error_message}")
+
+        self._statuses[task_id] = result.status
+        self._results[task_id] = result
+        if self.on_complete:
+            self.on_complete(task_id, result)
+        return result
+
+    async def _execute_single_attempt(self, task_id: str, semaphore: asyncio.Semaphore,
+                                      override_task: Optional[ConvertTaskItem] = None) -> TaskResult:
         async with semaphore:
             if task_id in self._cancelled_ids:
                 res = TaskResult(
@@ -149,16 +182,13 @@ class BatchConversionWorker:
                     status=TaskStatus.CANCELLED,
                     error_message="Task was cancelled before execution."
                 )
-                self._results[task_id] = res
-                if self.on_complete:
-                    self.on_complete(task_id, res)
                 return res
 
-            task = self._tasks[task_id]
+            task = override_task or self._tasks[task_id]
             total_duration = self._durations[task_id]
             self._statuses[task_id] = TaskStatus.RUNNING
 
-            if self.on_start:
+            if self.on_start and override_task is None:
                 self.on_start(task_id, task)
 
             start_time = time.time()
@@ -281,12 +311,6 @@ class BatchConversionWorker:
                 self._processes.pop(task_id, None)
                 if analysis_dir:
                     analysis_dir.cleanup()
-
-            self._statuses[task_id] = result.status
-            self._results[task_id] = result
-
-            if self.on_complete:
-                self.on_complete(task_id, result)
 
             return result
 

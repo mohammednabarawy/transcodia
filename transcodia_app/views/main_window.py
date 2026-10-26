@@ -213,7 +213,7 @@ class ConversionRunnerThread(QtCore.QThread):
             return
         success = (res.status == TaskStatus.COMPLETED)
         out_bytes = res.output_size_bytes or 0
-        err_msg = res.error_message or ""
+        err_msg = res.error_message or res.warning_message or ""
         self.task_completed.emit(task_id, success, out_bytes, err_msg)
 
 
