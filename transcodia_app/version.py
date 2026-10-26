@@ -5,4 +5,4 @@ Read by the packaging scripts and the release workflow. Change it with
 """
 
 APP_NAME = "Transcodia"
-APP_VERSION = "0.1.0"
+APP_VERSION = "0.1.2"

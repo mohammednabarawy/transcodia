@@ -5,6 +5,7 @@ separate Elapsed Time and Speed columns, drag-and-drop, and task state tracking.
 """
 
 import os
+import re
 from typing import Dict, Optional
 from PySide6 import QtCore, QtGui, QtWidgets
 from transcodia_app.icons import icon
@@ -250,7 +251,11 @@ class TaskTableView(QtWidgets.QTableWidget):
         if error_msg:
             output_cell.setToolTip(error_msg)
             detail = output_cell.findChild(QtWidgets.QLabel, "taskDetails")
-            detail.setText(error_msg.splitlines()[-1])
+            lines = error_msg.splitlines()
+            cause = next((line for line in lines if re.search(
+                r"no space|permission denied|not found|could not|cannot|invalid|error|not supported",
+                line, re.IGNORECASE)), lines[-1])
+            detail.setText(cause)
             detail.setToolTip(error_msg)
 
         if output_bytes is not None and output_bytes > 0:

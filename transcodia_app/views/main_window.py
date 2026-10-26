@@ -52,7 +52,7 @@ class ConversionRunnerThread(QtCore.QThread):
 
     task_started = QtCore.Signal(str)  # task_id
     task_progress = QtCore.Signal(str, float, float, float)  # task_id, pct, speed, current_time
-    task_completed = QtCore.Signal(str, bool, int, str)  # task_id, success, output_bytes, error_msg
+    task_completed = QtCore.Signal(str, bool, object, str)  # Python integer preserves sizes above 2 GiB.
     task_cancelled = QtCore.Signal(str)
     batch_finished = QtCore.Signal()
 
@@ -579,6 +579,10 @@ class MainWindow(QtWidgets.QMainWindow):
                     "qsv": caps.qsv_h264,
                     "amf": caps.amf_h264,
                     "mf": caps.mf_h264,
+                    "nvenc_hevc": caps.nvenc_hevc,
+                    "qsv_hevc": caps.qsv_hevc,
+                    "amf_hevc": caps.amf_hevc,
+                    "mf_hevc": caps.mf_hevc,
                 }
                 self.probed.emit(info)
 
@@ -773,6 +777,20 @@ class MainWindow(QtWidgets.QMainWindow):
         if not task_data:
             return
 
+        if task_data["status"] == "failed" and task_data.get("error_message"):
+            dialog = QtWidgets.QMessageBox(self)
+            dialog.setWindowTitle(APP_NAME)
+            dialog.setIcon(QtWidgets.QMessageBox.Icon.Warning)
+            dialog.setText(tr("Failed", self.language))
+            row = self.task_table._task_row_map[task_id]
+            cell = self.task_table.cellWidget(row, self.task_table.COL_PROGRESS)
+            dialog.setInformativeText(cell.findChild(QtWidgets.QLabel, "taskDetails").text())
+            dialog.setDetailedText(task_data["error_message"])
+            dialog.setTextFormat(QtCore.Qt.TextFormat.PlainText)
+            dialog.setTextInteractionFlags(QtCore.Qt.TextInteractionFlag.TextSelectableByMouse)
+            dialog.exec()
+            return
+
         dst = task_data["dst"]
         if task_data["status"] == "completed":
             target = dst if os.path.exists(dst) else (os.path.dirname(dst) if "%" in dst and os.path.isdir(os.path.dirname(dst)) else None)
@@ -803,13 +821,14 @@ class MainWindow(QtWidgets.QMainWindow):
                     task_item.video_config.hw_accel = HardwareAccel.MEDIA_FOUNDATION
                 elif hw_pref == "auto" and hasattr(self, "_hardware_caps_dict"):
                     caps = self._hardware_caps_dict
-                    if caps.get("nvenc"):
+                    suffix = "_hevc" if task_item.video_config.codec == VideoCodec.HEVC else ""
+                    if caps.get("nvenc" + suffix):
                         task_item.video_config.hw_accel = HardwareAccel.NVENC
-                    elif caps.get("qsv"):
+                    elif caps.get("qsv" + suffix):
                         task_item.video_config.hw_accel = HardwareAccel.QSV
-                    elif caps.get("amf"):
+                    elif caps.get("amf" + suffix):
                         task_item.video_config.hw_accel = HardwareAccel.AMF
-                    elif caps.get("mf"):
+                    elif caps.get("mf" + suffix):
                         task_item.video_config.hw_accel = HardwareAccel.MEDIA_FOUNDATION
 
         self.task_counter += 1
@@ -988,6 +1007,7 @@ class MainWindow(QtWidgets.QMainWindow):
     def _on_task_completed(self, task_id: str, success: bool, output_bytes: int, err_msg: str):
         if task_id in self.all_tasks:
             self.all_tasks[task_id]["status"] = "completed" if success else "failed"
+            self.all_tasks[task_id]["error_message"] = err_msg
         self.task_table.set_task_completed(task_id, success, output_bytes, err_msg)
         self._update_status_summary()
 

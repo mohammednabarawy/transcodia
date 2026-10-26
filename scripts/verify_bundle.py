@@ -7,7 +7,7 @@ import subprocess
 import tempfile
 
 
-def verify_bundle(executable: Path, report_path: Path, ffmpeg=None) -> dict:
+def verify_bundle(executable: Path, report_path: Path, ffmpeg=None, require_bundled=False, media_source=None) -> dict:
     executable = executable.resolve(strict=True)
     environment = os.environ.copy()
     for name in ("PYTHONPATH", "PYTHONHOME", "FFMPEG_PATH"):
@@ -22,9 +22,12 @@ def verify_bundle(executable: Path, report_path: Path, ffmpeg=None) -> dict:
                             "XDG_CONFIG_HOME": folder, "APPDATA": folder,
                             "LOCALAPPDATA": folder})
         temporary_report = Path(folder) / "runtime.json"
+        command = [str(executable), "--smoke-test", "--verify-runtime", str(temporary_report)]
+        if media_source:
+            command.extend(["--verify-media", str(Path(media_source).resolve(strict=True))])
         result = subprocess.run(
-            [str(executable), "--smoke-test", "--verify-runtime", str(temporary_report)],
-            cwd=folder, env=environment, capture_output=True, timeout=120)
+            command,
+            cwd=folder, env=environment, capture_output=True, timeout=180 if media_source else 120)
         if not temporary_report.is_file():
             raise RuntimeError(f"Bundle exited {result.returncode} without a runtime report. "
                                + result.stderr.decode("utf-8", errors="replace")[-3000:])
@@ -34,6 +37,8 @@ def verify_bundle(executable: Path, report_path: Path, ffmpeg=None) -> dict:
         report_path.write_text(json.dumps(report, indent=2), encoding="utf-8")
         if result.returncode or not report.get("ok") or not report.get("frozen"):
             raise RuntimeError(f"Packaged runtime verification failed: {report}")
+        if require_bundled and not report.get("engine_bundled"):
+            raise RuntimeError("Packaged verification used an external FFmpeg instead of the bundled engine.")
         return report
 
 
@@ -42,5 +47,7 @@ if __name__ == "__main__":
     parser.add_argument("executable", type=Path)
     parser.add_argument("--report", type=Path, default=Path("artifacts/bundle-verification.json"))
     parser.add_argument("--ffmpeg", type=Path, help="Independently installed engine used only for verification")
+    parser.add_argument("--require-bundled", action="store_true", help="Fail if FFmpeg is not inside the package")
+    parser.add_argument("--media-source", type=Path, help="Also verify a five-second clip from this source")
     args = parser.parse_args()
-    print(json.dumps(verify_bundle(args.executable, args.report, args.ffmpeg), indent=2))
+    print(json.dumps(verify_bundle(args.executable, args.report, args.ffmpeg, args.require_bundled, args.media_source), indent=2))

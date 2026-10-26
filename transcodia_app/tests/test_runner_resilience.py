@@ -1,10 +1,12 @@
 from pathlib import Path
+import pytest
 
 from PySide6 import QtWidgets
 
 from transcodia_app.handlers.image_handler import ImageConfig
 from transcodia_app.views.main_window import ConversionRunnerThread
-from transcodia_engine.models import ConvertTaskItem
+from transcodia_engine.models import ConvertTaskItem, VideoConfig, VideoCodec, HardwareAccel
+from transcodia_engine.worker import TaskResult, TaskStatus
 
 
 def test_bad_image_does_not_abort_later_images_documents_or_media(qapp, tmp_path, sample_image, sample_pdf, media_files, ffmpeg_bin):
@@ -77,3 +79,52 @@ def test_stop_in_gui_reports_cancellation_and_allows_retry(app_window, qtbot, ff
     qtbot.waitUntil(lambda: window.all_tasks[tid]["status"] != "running", timeout=3000)
     assert window.all_tasks[tid]["status"] == "cancelled"
     assert window.btn_start.isEnabled()
+
+
+def test_large_completed_output_keeps_full_size_across_qt_signal(qapp, qtbot, tmp_path):
+    task = ConvertTaskItem("input.mp4", str(tmp_path / "large.mp4"))
+    runner = ConversionRunnerThread([])
+    received = []
+    runner.task_completed.connect(lambda *args: received.append(args))
+    size = 4 * 1024 ** 3 + 17
+    runner._on_worker_complete("large", TaskResult("large", task, TaskStatus.COMPLETED, output_size_bytes=size))
+    assert received == [("large", True, size, "")]
+
+
+def test_failed_task_shows_cause_and_opens_complete_error(app_window, monkeypatch):
+    window = app_window
+    task = ConvertTaskItem("missing.mp4", str(Path(window.output_dir) / "failed.mp4"))
+    window._enqueue_media_task("video", "mp4", task)
+    tid = next(iter(window.all_tasks))
+    error = "[h264_mf] could not initialize encoder\nTask finished with error code: -22\nConversion failed!"
+    window._on_task_completed(tid, False, 0, error)
+    cell = window.task_table.cellWidget(0, window.task_table.COL_PROGRESS)
+    assert cell.findChild(QtWidgets.QLabel, "taskDetails").text() == error.splitlines()[0]
+    shown = []
+    monkeypatch.setattr(QtWidgets.QMessageBox, "exec", lambda box: shown.append(box.detailedText()))
+    window._on_task_double_clicked(tid)
+    assert shown == [error]
+
+
+@pytest.mark.parametrize("codec", [VideoCodec.H264, VideoCodec.HEVC])
+def test_real_start_button_converts_media_through_qthread(app_window, qtbot, media_files, ffmpeg_bin, codec):
+    window = app_window
+    window.ffmpeg_path = ffmpeg_bin
+    window._hardware_caps_dict = {"mf": True, "mf_hevc": False} if codec == VideoCodec.HEVC else {}
+    window._enqueue_media_task("video", "mp4", ConvertTaskItem(media_files["video"], str(Path(window.output_dir) / "converted.mp4"), video_config=VideoConfig(codec=codec)))
+    window._start_conversion()
+    qtbot.waitUntil(lambda: not window.runner_thread.isRunning(), timeout=15000)
+    qtbot.waitUntil(lambda: next(iter(window.all_tasks.values()))["status"] == "completed", timeout=2000)
+    assert Path(next(iter(window.all_tasks.values()))["dst"]).stat().st_size > 0
+
+
+@pytest.mark.parametrize("hardware", ["nvenc", "qsv", "amf", "mf"])
+def test_auto_hardware_requires_support_for_selected_codec(app_window, hardware):
+    window = app_window
+    window._hardware_caps_dict = {hardware: True, hardware + "_hevc": False}
+    task = ConvertTaskItem("source.mp4", str(Path(window.output_dir) / "hevc.mp4"), video_config=VideoConfig(codec=VideoCodec.HEVC))
+    window._enqueue_media_task("video", "mp4", task)
+    assert task.video_config.hw_accel == HardwareAccel.NONE
+    window._hardware_caps_dict[hardware + "_hevc"] = True
+    window._enqueue_media_task("video", "mp4", task)
+    assert task.video_config.hw_accel.value == hardware

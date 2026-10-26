@@ -47,7 +47,10 @@ def main():
     parser.add_argument("--version", action="store_true")
     parser.add_argument("--smoke-test", action="store_true")
     parser.add_argument("--verify-runtime", metavar="REPORT", help="Check conversion dependencies and write a JSON report")
+    parser.add_argument("--verify-media", metavar="FILE", help="Also verify a five-second clip without changing the input")
     args, qt_args = parser.parse_known_args()
+    if args.verify_media and not args.verify_runtime:
+        parser.error("--verify-media requires --verify-runtime")
     if args.version:
         _say(APP_VERSION)
         return 0
@@ -68,7 +71,7 @@ def main():
         status = smoke_test(app)
         if status == 0 and args.verify_runtime:
             from transcodia_app.runtime_check import verify_runtime
-            return verify_runtime(args.verify_runtime)
+            return verify_runtime(args.verify_runtime, args.verify_media)
         return status
 
     # Initialize and show main window

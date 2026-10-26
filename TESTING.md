@@ -2,7 +2,7 @@
 
 ## Latest local result
 
-The final coverage run passed **277 tests in 30.02 seconds**, with **0 failures, 0 errors and 0 skips**. Source line coverage was **89.09%** and branch coverage **72.18%**. The PDF replacement and generated artwork were tested with the removed PDF engine absent from the isolated environment.
+The latest coverage run passed **287 tests in 29.16 seconds**, with **0 failures, 0 errors and 0 skips**. Source line coverage was **89.78%** and branch coverage **73.00%**. The PDF replacement and generated artwork were tested with the removed PDF engine absent from the isolated environment.
 
 ## Run
 
@@ -21,7 +21,7 @@ Reports are written to `artifacts/tests/`: `summary.json`, `pytest.log`, `junit.
 | Area | Evidence |
 | --- | --- |
 | UI and localization | Actual Qt navigation, all tool routes, accepted/cancelled dialogs, Arabic/English switching and theme changes |
-| Queue | Start, real process pause/resume, cancellation/retry, failure isolation and restored controls |
+| Queue | Start through the actual conversion thread, real process pause/resume, cancellation/retry, failure isolation, complete error details, sizes above 2 GiB and restored controls |
 | Inputs and settings | Files/folders/drops, duplicate filtering, validation, independent settings and queue persistence |
 | Media | Real format conversions, decoded frames, trim/resize/rotate/crop, subtitles, watermarks and audio transforms |
 | Advanced encoding | Actual two-pass and stabilization analysis plus final decoding |
@@ -29,10 +29,12 @@ Reports are written to `artifacts/tests/`: `summary.json`, `pytest.log`, `junit.
 | Images | Reopened formats, transform pixels, dimensions, alpha handling and EXIF orientation |
 | Documents | PDF text/table extraction, literal spreadsheet text, merge order, readable DOCX, DOCX text/table PDF rendering and atomic output publication |
 | PDF workspace | Real rendered previews, duplicate handling, ordering and corrupt/encrypted/missing input rejection |
-| Runtime and packaging | Resolver priority, missing dependencies, isolated executable checks, excluded foreign DLLs and generated asset inclusion |
+| Runtime and packaging | Resolver priority, missing dependencies, bundled FFmpeg/FFprobe and shared DLL inclusion, isolated executable checks and generated asset inclusion |
 | Publication boundaries | Source-tree checks, generated asset hashes and no executable libraries in the public source tree |
 
 The tests are under `transcodia_app/tests` and `transcodia_engine/tests`. Most UI tests manipulate real widgets rather than substituting the application logic. Hardware probing matrices are controlled tests; they are not certification of a physical GPU or driver.
+
+An optional packaged check, `scripts/verify_bundle.py --media-source`, runs a five-second source clip through the main window's real queue and conversion thread with automatic encoder selection, decodes the result and checks the source was unchanged. This is additional local evidence, not a full-length media conversion. Automatic HEVC selection is also covered against hardware that supports only H.264.
 
 ## Limits
 

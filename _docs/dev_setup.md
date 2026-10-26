@@ -24,7 +24,7 @@ python main.py
 
 ## Local executable configuration
 
-The lookup order is `FFMPEG_PATH`, an application-local executable if one has been supplied by the operator, `ffmpeg_path` in `transcodia.local.json`, then `PATH`. Default distribution builds do not include a media engine.
+The lookup order is `FFMPEG_PATH`, the bundled executable, `ffmpeg_path` in `transcodia.local.json`, then `PATH`. Windows portable builds include FFmpeg, FFprobe and their runtime DLLs in `_internal/ffmpeg`.
 
 Optional local configuration, excluded from Git:
 
@@ -50,21 +50,23 @@ The runtime check creates synthetic image, PDF and media inputs and verifies act
 
 ```powershell
 ./scripts/windows_build.ps1
-# Use an explicit engine for verification only:
-./scripts/windows_build.ps1 -VerifyFfmpegPath /path/to/ffmpeg.exe
+# Select the engine distribution to integrate:
+./scripts/windows_build.ps1 -FfmpegDir /path/to/ffmpeg/bin
 ```
 
 ```bash
 bash scripts/unix_build.sh /path/to/ffmpeg
 ```
 
-The Windows script accepts `-SkipDependencyInstall` when dependencies are already installed in the active environment. Both build scripts run regression tests, collect installed dependency notices, create the desktop bundle and verify it outside the checkout before archiving it. The independently installed media engine used for verification is not copied into the archive.
+The Windows script accepts `-SkipDependencyInstall` when dependencies are already installed in the active environment. It copies both media executables and adjacent shared DLLs, records their upstream notices and hashes, and verifies the package without an external engine on PATH. Both build scripts run regression tests and collect dependency notices before archiving. The Unix script currently uses a separately installed engine for verification.
 
 Repeat a bundle check with:
 
 ```bash
-python scripts/verify_bundle.py /path/to/Transcodia --ffmpeg /path/to/ffmpeg
+python scripts/verify_bundle.py /path/to/Transcodia.exe --require-bundled
 ```
+
+Use `--media-source /path/to/video.mp4` to additionally convert and decode a five-second clip with the packaged engine. The input is never overwritten. On Unix, `--ffmpeg /path/to/ffmpeg` can verify an external-engine build instead.
 
 PyInstaller's Windows dependency search can encounter same-named libraries from unrelated installations. The spec excludes the conflicting top-level ICU DLL and relies on the Windows system API Qt expects. The unused optional decorative font is excluded as well. Keep third-party notices with the bundle and complete applicable source-availability/replacement obligations before distributing native libraries publicly.
 

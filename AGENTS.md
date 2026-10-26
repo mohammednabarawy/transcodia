@@ -33,7 +33,7 @@ _docs/               developer docs
 - Keep the version only in `transcodia_app/version.py`; change it with `scripts/bump_version.py`.
 - Generated output (`artifacts/`, `build/`, `dist/`) is never committed.
 - Interface icons are generated image assets. Use the built-in image generation tool for replacements; do not substitute code-drawn shapes or another application's resources.
-- Preserve dependency notices. Default bundles do not redistribute the separately installed media engine.
+- Preserve dependency notices. Windows packages include FFmpeg, its required DLLs and upstream notices; verify them with no external engine on PATH.
 - Run `python scripts/audit_release_tree.py` against the staged source tree before publishing.
 - Preserve existing comments and docstrings unrelated to your change.
 

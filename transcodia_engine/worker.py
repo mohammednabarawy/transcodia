@@ -240,7 +240,7 @@ class BatchConversionWorker:
                     err_msg = None
                 else:
                     status = TaskStatus.FAILED
-                    err_msg = "\n".join(list(error_lines)[-10:]) if error_lines else f"FFmpeg exited with error code {rc}"
+                    err_msg = "\n".join(error_lines) if error_lines else f"FFmpeg exited with error code {rc}"
 
                 out_size = None
                 if status == TaskStatus.COMPLETED:
@@ -272,7 +272,7 @@ class BatchConversionWorker:
                     task=task,
                     status=status,
                     elapsed_seconds=elapsed,
-                    error_message=str(ex),
+                    error_message=f"{type(ex).__name__}: {ex}",
                 )
             finally:
                 if proc and proc.returncode is None:

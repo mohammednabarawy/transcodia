@@ -63,7 +63,7 @@ python -m pip install -r requirements.txt
 python main.py
 ```
 
-Video and audio tools require an **independently installed FFmpeg executable** on `PATH`. It is not redistributed in the default desktop package. Image and document tools use the declared Python libraries. See the [developer guide](_docs/dev_setup.md) for setup and local executable configuration.
+The **Windows portable package includes FFmpeg, FFprobe and their required DLLs**. Extract the complete ZIP and run `Transcodia.exe`; no separate media-engine installation is needed. Running from source still requires FFmpeg on the development machine. Image and document tools use the declared Python libraries. See the [developer guide](_docs/dev_setup.md) for setup.
 
 ### Build a desktop package
 

@@ -1,7 +1,7 @@
 # -*- mode: python ; coding: utf-8 -*-
 # PyInstaller spec for Transcodia. Build with:  python -m PyInstaller packaging/transcodia.spec
 #
-# Media engines are installed independently and are not redistributed in this bundle.
+# Set TRANSCODIA_FFMPEG_DIR to integrate the media engine and its runtime libraries.
 import os
 import re
 import sys
@@ -21,7 +21,19 @@ datas.append((str(notice_folder), "THIRD_PARTY_LICENSES"))
 binaries = []
 ffmpeg_dir = os.environ.get("TRANSCODIA_FFMPEG_DIR")
 if ffmpeg_dir:
-    raise SystemExit("Media engines are not bundled. Unset TRANSCODIA_FFMPEG_DIR and install FFmpeg independently.")
+    engine_folder = Path(ffmpeg_dir)
+    suffix = ".exe" if sys.platform == "win32" else ""
+    for tool in ("ffmpeg", "ffprobe"):
+        candidate = engine_folder / (tool + suffix)
+        if not candidate.is_file():
+            raise SystemExit(f"Missing bundled media executable: {candidate}")
+        binaries.append((str(candidate), "ffmpeg"))
+    if sys.platform == "win32":
+        binaries.extend((str(path), "ffmpeg") for path in engine_folder.glob("*.dll"))
+    engine_notices = ROOT / "artifacts" / "ffmpeg-notices"
+    if not (engine_notices / "manifest.json").is_file():
+        raise SystemExit("Collect FFmpeg notices before packaging the engine.")
+    datas.append((str(engine_notices), "THIRD_PARTY_LICENSES/ffmpeg"))
 
 icon = None
 for name in ("transcodia.ico" if sys.platform == "win32" else "transcodia.icns",):
