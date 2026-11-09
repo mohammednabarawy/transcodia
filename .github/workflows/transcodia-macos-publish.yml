@@ -31,9 +31,9 @@ jobs:
           - runner: macos-15-intel
             label: x86_64
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v7
         with:
           python-version: "3.12"
           cache: pip
@@ -78,13 +78,13 @@ jobs:
         run: python3 scripts/verify_bundle.py dist/Transcodia.app/Contents/MacOS/Transcodia --ffmpeg "$VERIFY_FFMPEG"
 
       - name: Upload workflow artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: transcodia-macos-${{ matrix.label }}
           path: dist/Transcodia-*-macos-*.zip
 
       - name: Publish to draft release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         with:
           tag_name: transcodia-v${{ steps.version.outputs.version }}
           name: Transcodia ${{ steps.version.outputs.version }}
